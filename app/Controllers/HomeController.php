@@ -14,8 +14,22 @@ class HomeController{
         $db = $request->getDatabase();
         $properties = $db->fetchAllSql('SELECT ap.* , pp.p_photo from properties as ap inner join property_photo as pp on ap.id = pp.property_id order by rand() limit 18');
         // print_r($properties);
+        
         return $response->render('home/home',['properties'=>$properties]);
     }
+
+
+    #[Router(path:'/about', method:'GET',middleware:'got')]
+   public function about(Request $request,Response $response) {
+
+        $db = $request->getDatabase();
+       
+        // print_r($properties);
+        $response->disableLayouts(true);
+        $response->withHeader('layouts/header');
+        return $response->render('home/about');
+    }
+
 
 
 

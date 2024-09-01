@@ -71,7 +71,7 @@ Router::addMiddleWare('guest', $guest);
 //home
 // Router::get('/',[HomeController::class,'home'] );
 Router::get('/contact','home/contact');
-Router::get('/about','home/about' );
+// Router::get('/about','home/about' );
 //home
 
 
