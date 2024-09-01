@@ -7,7 +7,7 @@
 }
 
 .container {
-    margin-top: 50px;
+    margin-top: 100px;
     max-width: 400px;
     padding: 30px;
     border-radius: 10px;
@@ -64,8 +64,28 @@ input::placeholder {
 
 .verify:hover {
     background-color: #4cae4c;
-    transform: scale(1.15);
+    transform: scale(1.02);
     /* Darker green on hover */
+}
+
+.resend{
+
+   /* White text color */
+   /* border: 1px solid #5cb85c; */
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+
+.resend:hover{
+background-color: gray;
+transform: scale(1.02);
+
+
 }
 </style>
 
@@ -77,7 +97,8 @@ input::placeholder {
         </div>
 
         <div class="verification-box">
-            <p>Enter Code Within 2 minutes</p>
+        <div style="color:green; padding:10px;"><?php echo $msg ?? '' ?></div>
+            <p>Enter Code Within <?php echo $expire ?? '' ?> minutes</p>
             <form method="post" action="/verify_email">
                 <div class="form-group">
                     <input type="hidden" name="id"
@@ -88,8 +109,15 @@ input::placeholder {
                 </div>
                     <div style="color:red; padding:10px;"><?php echo $error ?? '' ?></div>
                 <div class="form-group text-center">
-                    <button class="verify" type="submit" class="btn btn-block" name="verify_email">Verify</button>
+                    <!-- <button class="verify" type="submit" class="btn btn-block" name="verify_email">Verify</button> -->
+                    <input type="submit" class=" verify btn btn-block" value="Verify ">
+                    <br>
+                   
                 </div>
             </form>
+            <form method="post"  action="/resend_otp">
+                        <input name="id" value="<?php echo $id ??'' ?>"  hidden>
+                        <input type="submit" class=" resend btn btn-block" value="Resend OTP">
+                    </form>
         </div>
     </div>

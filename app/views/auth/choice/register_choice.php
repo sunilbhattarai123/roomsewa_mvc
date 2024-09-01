@@ -68,7 +68,7 @@
                      <hr style="width:50%;text-align:center;margin-left:250px">
                     <p>If you want to register as a tenant click on tenant register button otherwise click on owner
                         register button.</p><br><br>
-                    <button type="submit" class="btn btn-info" onclick="window.location.href='/register/'"
+                    <button type="submit" class="btn btn-info" onclick="window.location.href='/register/tenant'"
                         style="width:200px;">Tenant Register</button>
                     <button type="submit" class="btn btn-info" onclick="window.location.href='/register/owner'"
                         style="width:200px;">Owner Register</button>

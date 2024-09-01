@@ -1,5 +1,5 @@
 
-    <link rel="stylesheet" href="/style/register.css" class="css">
+    <link rel="stylesheet" href="/public/css/register.css" class="css">
 
 
     <div class="container">
@@ -45,7 +45,7 @@
 
             <div class="form-group">
                 <label for="password2">Confirm Password:</label>
-                <input value="<?php echo $data['c_password'] ?? '' ?>" type="password" class="form-control" id="password2" placeholder="Enter Password Again"
+                <input value="<?php echo $c_password ?? '' ?>" type="password" class="form-control" id="password2" placeholder="Enter Password Again"
                     name="c_password" >
                 <i class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('password2')"></i>
                 <span id="confirm-password-icon" class="icon"><i class="fas fa-circle-check"></i><i
@@ -72,6 +72,37 @@
             </div>
 
             <div class="form-group">
+                <label for="address">Profile Picture:</label>
+                <input  type="file" class="form-control" id="profile_pic"  name="profile_pic"
+                  accept="image/*"  onchange="preview_image_profile(event)"  >
+                <span id="address-icon" class="icon"><i class="fas fa-circle-check"></i><i
+                        class="fas fa-circle-exclamation"></i></span>
+                <span id="profile-message" class="message"> <?php echo $errors['profile_pic'] ?? '' ?></span>
+            </div>
+
+            <div class="form-group">
+                <label>Your selected File:</label><br>
+                <img src="" id="profile_image" alt="Selected File" height="100px" >
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <label for="address">Cover Photo:</label>
+                <input type="file" class="form-control" id="cover_pic"  name="cover_pic"
+                  accept="image/*"  onchange="preview_image_cover(event)" >
+                <span id="address-icon" class="icon"><i class="fas fa-circle-check"></i><i
+                        class="fas fa-circle-exclamation"></i></span>
+                <span id="cover-message" class="message"> <?php echo $errors['cover_pic'] ?? '' ?></span>
+            </div>
+
+        
+            <div class="form-group">
+                <label>Your selected File:</label><br>
+                <img src="" id="cover_image" alt="Selected File" height="100px" >
+            </div>
+            <hr>
+
+            <div class="form-group">
                 <label for="id_type">Type of ID:</label>
                 <select class="form-control" name="id_type" >
                     <option>Citizenship</option>
@@ -89,6 +120,7 @@
             </div>
 
 
+          
             <div class="form-group">
                 <label>Your selected File:</label><br>
                 <img src="" id="output_image" alt="Selected File" height="100px" >
@@ -104,7 +136,9 @@
 
     <!-- Font Awesome CDN link -->
     <script href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-    <!-- <script src="/script/register.js"></script> -->
+
+    <script src="/public/js/register.js"></script>
+
 
 
 </body>
