@@ -24,10 +24,24 @@
                     <!-- Eye icon -->
                 </div>
             </div>
-            <div class="form-group">
-                <a href="forgot-password-tenant.php">Forgot your Password ? </a> 
-            </div>
+            
             <input type="submit" id="submit" name="tenant_login" class="btn btn-primary btn-block" value="Login">
+            <hr>
+            <br>
+           <center>
+           <div class="form-group">
+                <a style="font-size:15px;" href="/forgot_password">Forgot your Password ? </a> 
+            </div>
+</center >
+
+           <br>
+           <center> 
+
+               <div class="form-group text-right">
+                    <label class="">Don't have Account ? Create New Account  <a href="/register_choice">Here</a></label><br>
+                </div><br><br>
+           </center>
+          
         </form>
     </div>
 

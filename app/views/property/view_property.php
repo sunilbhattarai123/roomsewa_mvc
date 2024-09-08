@@ -272,13 +272,13 @@
 
 <div class="recommendation-loadmore">
 
-
+<!-- 
   <div class="myclass">
     <form action="/load-more.php" method="post">
       <button type="submit" class="btn btn-outline-dark" name="load more" style="width: 300px"
         background-color="blue">Load More</button>
     </form>
-  </div>
+  </div> -->
   <?php if ($auth  && $user->role !='owner') { ?>
 
 

@@ -100,6 +100,8 @@ html {
     transform: scale(1.10);
 }
 
+
+
 @media (max-width: 768px) {
     .bg {
         /* the image used */
@@ -204,11 +206,13 @@ html {
   .available {
     background-color: green;
     color: white;
+    font-weight: bold;
   }
 
   .booked {
     background-color: red;
     color: white;
+    font-weight: bold;
   }
 
   @media screen and (max-width: 768px) {

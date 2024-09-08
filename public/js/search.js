@@ -41,10 +41,16 @@ function renderSearchData(datas= []) {
         var price = child.getElementsByClassName('price')[0];
 
         image.src = "/public/uploads/"+each['p_photo'];
-        if(each['booked'] == 'No')
+        if(each['booked'] == 'No'){
             isAvailable.innerText = 'Available';
-        else 
+            isAvailable.classList.add("available");
+        }
+            
+        else {
             isAvailable.innerText = 'Booked';
+            isAvailable.classList.add("booked");
+     
+        }
 
         type.innerText = each['property_type']
 

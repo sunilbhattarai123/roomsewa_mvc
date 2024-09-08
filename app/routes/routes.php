@@ -9,6 +9,16 @@ use Phphelper\Core\Response;
 use Phphelper\Core\Router;
 
 
+$not_admin = function (Request $request, Response $response){
+
+    // if(!$request->isLogin()) return $response->redirect('/admin/login');
+
+    $admin = $request->getSession('admin');
+
+    
+    if($admin) return $response->redirect('/admin/');
+
+};
 
 
 
@@ -20,17 +30,23 @@ $auth = function (Request $request, Response $response){
 $got = function (Request $request, Response $response){
     // if($request->isLogin()) return $response->redirect('/');
     $user = $request->getUser();
+    $admin = $request->getSession('admin');
+    if($admin) return $response->redirect('/admin/');
+
     if(!$user) return;
 
     $role = $user->role;
   
     // die();
     if($role=='owner') return $response->redirect('/owner/');
-
+   
     
 }; //middleware
 
 $guest = function (Request $request, Response $response){
+    $admin = $request->getSession('admin');
+    if($admin) return $response->redirect('/admin/');
+
     if($request->isLogin()) return $response->redirect('/');
 }; //middleware
 
@@ -52,18 +68,34 @@ $owner = function (Request $request, Response $response){
 
     if(!$request->isLogin()) return $response->redirect('/login');
 
-    $user = $request->getUser();
+    $admin = $request->getSession('admin');
+    if($admin) return $response->redirect('/admin/');
 
+    $user = $request->getUser();
     $role = $user->role;
     if($role!='owner') return die("You do not have permission to access this feature");
 
 };
+
+$admin = function (Request $request, Response $response){
+   
+    $admin = $request->getSession('admin');
+
+    if($request->isLogin()) return die("You dont have permission to access this resource");
+    // else return $response->redirect('/');
+   else if(!$admin) return $response->redirect("/admin/login");
+   $response->disableLayouts(true);
+
+};
+
 
 Router::addMiddleWare('auth', $auth);
 Router::addMiddleWare('owner', $owner);
 Router::addMiddleWare('tenant', $tenant);
 Router::addMiddleWare('got', $got);
 Router::addMiddleWare('guest', $guest);
+Router::addMiddleWare('admin', $admin);
+Router::addMiddleWare('!admin', $not_admin);
 
 
 

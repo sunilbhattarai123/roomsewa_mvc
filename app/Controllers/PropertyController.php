@@ -118,7 +118,7 @@ class PropertyController{
 
         $id = $params->id;
         $db = $request->getDatabase();
-        $property = $db->fetchOneSql('SELECT ap.* , pp.p_photo from properties as ap inner join property_photo as pp on ap.id = pp.property_id where ap.id = ?',[$id]);
+        $property = $db->fetchOneSql('SELECT ap.* , pp.p_photo from properties as ap inner join property_photo as pp on ap.id = pp.property_id where ap.id = ? and ap.state = ? ',[$id,'active']);
         if(!$property){
             die("Property not found");
         }
@@ -143,7 +143,7 @@ class PropertyController{
 
         $conditions = array();
 
-        $sql = "SELECT ap.* , pp.p_photo from properties as ap left join property_photo as pp on ap.id = pp.property_id where";
+        $sql = "SELECT ap.* , pp.p_photo from properties as ap left join property_photo as pp on ap.id = pp.property_id where state=?  and ";
 
         // Add conditions based on search input
         if (!empty($search_property)) {
@@ -170,7 +170,8 @@ class PropertyController{
 
 
         $db = $request->getDatabase();
-        $properties = $db->fetchAllSql($sql);
+        // print_r($sql);
+        $properties = $db->fetchAllSql($sql,['active']);
 
         return $response->json($properties);
 

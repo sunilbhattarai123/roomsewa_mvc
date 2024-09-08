@@ -34,8 +34,7 @@
 
             <div class="form-group">
                 <label for="password1">Password:</label>
-                <input value="<?php echo $data['password'] ?? '' ?>" type="password" class="form-control" id="password1" placeholder="Enter Password" name="password"
-                    >
+                <input value="<?php echo $data['password'] ?? '' ?>" type="password" class="form-control" id="password1" placeholder="Enter Password" name="password">
                 <i class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility('password1')"></i>
                 <span id="password-icon" class="icon"><i class="fas fa-circle-check"></i><i
                         class="fas fa-circle-exclamation"></i></span>

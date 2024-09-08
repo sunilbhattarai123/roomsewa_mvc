@@ -8,9 +8,10 @@ use Phphelper\Core\Router;
 
 class OwnerController{
 
-    #[Router(path:'/owner/', method:'GET')]
+    #[Router(path:'/owner/', method:'GET',middleware:'owner')]
     public function getHome(Request $request,Response $response){
-
+        $response->disableLayouts(true);
+        $response->withHeader('layouts/header');
         $db = $request->getDatabase();
         $id = $request->getUser()->id;
 

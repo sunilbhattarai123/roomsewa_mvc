@@ -9,7 +9,8 @@ class ProfileController{
 
     #[Router(path:'/profile/{other_id?}', method:'GET')]
     public function getProfile(Request $request,Response $response,$params){
-        
+        $response->disableLayouts(true);
+        $response->withHeader('layouts/header');
         $id = $params->other_id; 
         $db = $request->getDatabase();
         if(!$id)

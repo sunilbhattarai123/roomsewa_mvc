@@ -116,4 +116,71 @@ class Validation{
     }//validate
 
 
+
+
+
+    public static function validateAdminRegister(Request $request,$db){
+        $full_name = trim($request->full_name);
+        $email = trim($request->email);
+        $password = trim($request->password);
+        $c_password = trim($request->c_password);
+
+        $errors = [];
+
+    
+
+
+
+
+        //validate fullname
+        if(!$full_name || strlen($full_name)<6 ){
+            $errors['full_name'] = "Name must be greater than 6 charcters";
+        }//name error
+
+
+        //email validation
+        if( !$email || strlen($email)<6 || !filter_var($email, FILTER_VALIDATE_EMAIL) ){
+            $errors['email'] = "Email is invalid";
+        }//email error
+        else {
+            // $db = $request->getDatabase();
+            $admin = $db->fetchOne('admins',['email'=>$email]);
+            if($admin) 
+                $errors['email'] = "Email is already exists";
+        }// if valid
+
+
+
+
+        //validate password
+        if(!$password || strlen($password)<8 ){
+            $errors['password'] = "Password must be at least 8 characters long";
+        }//password error
+
+
+
+        //validate confirm password
+        if( $password != $c_password ){
+            $errors['c_password'] = "Confirm password does not matched";
+        }//password error
+
+    
+        
+        $data = [
+            'full_name'=> $full_name,
+            'email'=> $email,
+            'password'=>$password
+        
+        ];
+
+
+
+
+
+        return [$data,$errors];
+
+
+    }//validate admin
+
+
 }

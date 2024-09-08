@@ -1,13 +1,7 @@
 <?php
-include("./navbar.php");
+
 
 date_default_timezone_set('Asia/Kathmandu');
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-require './vendor/autoload.php';
-include("./config/config.php");
-include("./config/bcrypt.php");
 
 // Initially, set the step to 1 (Enter Email)
 $step = 1;
@@ -172,7 +166,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" name="verifyOTP" class="btn btn-primary btn-block" style="background-color:#5cb85c;>Verify OTP</button>
             </form>
             <?php
-        } elseif ($step == 3) {
+        } 
+        
+        elseif ($step == 3) {
             // Step 3: Set New Password
             ?>
             <form method="post">

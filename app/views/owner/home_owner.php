@@ -59,7 +59,7 @@
                             <a href="#"><i class="fab fa-instagram"></i></a>
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <div class="row">
+                        <div class="row ">
 
 
                             <div class="col-lg-12" id="length">
