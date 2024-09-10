@@ -202,13 +202,25 @@
       </a>
   
       <a class="btn btn-lg btn-info message-btn" href="/message/<?php echo $property['user_id'] ?>">Send Message</a>
+      <a href="/pay/<?php echo $property['id']  ?>">
+          <button class="btn btn-lg btn-primary owner-profile-btn">Pay</button>
+      </a>
     </div>
 
  
 
+            
 
+            
+  <?php }  else if($auth && $user->role = 'owner' ) {?>
+    <div style="display:flex;gap:10px;">
+    <a href='/edit_property/<?php echo $property['user_id']  ?>' class="btn-a btn-lg btn-primary btn-lg " style="margin-right:14px; margin-bottom:10px; background-color:green;"> Edit Property </a>
+    <form action="/delete_property" method="POST">
+    <input hidden value="<?php echo $property['id'] ?>" name="id"> 
+    <input type="submit" value="Delete Property" class="btn-a btn-lg btn-primary btn-lg" style=" border:none; margin-right:14px; background-color:red;">
+    </form>
 
-
+    </div>
 
 
   <?php } else {
@@ -296,7 +308,7 @@
 
 <!-- Review Code started here  -->
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
   <h2>Review Property:</h2>
   <div class="well well-sm">
     <div class="text-right">
@@ -363,7 +375,7 @@ foreach ($reviews as $review) {
 }
 
 ?>
-<br><br>
+<br><br> -->
 
 
 

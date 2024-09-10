@@ -42,7 +42,108 @@ class PropertyController{
         return $response->redirect();
         
         
-    }//view Property
+    }//add Property
+
+ 
+    #[Router(path:'/unbook_property/{id}',method:'Get',middleware:'owner')]
+    public function unbookProperty(Request $request,Response $response,$params){
+         $id= $params->id;
+         $user_id= $request->getUser()->id;
+         
+
+         $db= $request->getDatabase();
+
+         $is_property = $db->update('properties',['booked'=>"No"],['id'=>$id,'user_id'=>$user_id]);
+         if(!$is_property) die("this property does not exits");
+
+         $db->delete('booking',['property_id'=>$id]);
+
+         return $response->redirect('/');
+
+
+
+    }
+
+
+    
+    #[Router(path:'/delete_property',method:'POST',middleware:'owner')]
+    public function deleteProperty(Request $request,Response $response){
+
+        $id = $request->id;
+        $user_id = $request->getUser()->id;
+        $data = $request->getData();
+
+      print_r($user_id);
+      print_r($id);
+
+        // $data['p_photo'] - $path;
+      
+
+        $db = $request->getDatabase();
+        $isDeleted =  $db->delete('properties', ['id'=>$id,'user_id'=>$user_id]);
+        if(!$isDeleted){
+            die("Something went wrong deleting... ");
+        }
+       
+
+
+        return $response->redirect('/');
+        
+        
+    }//add Property
+
+
+    #[Router(path:'/update_property',method:'POST',middleware:'owner')]
+    public function updateProperty(Request $request,Response $response){
+
+        $data = $request->getData();
+        $id = $request->id;
+
+
+        // $data['p_photo'] - $path;
+        $user_id = $request->getUser()->id;
+        $data['user_id'] = $user_id;
+
+
+        $db = $request->getDatabase();
+        $isUpdated =  $db->update('properties', $data,['id'=>$id,'user_id'=>$user_id]);
+        if(!$isUpdated){
+            die("Something went wrong updating.");
+        }
+       
+        return $response->redirect('/');
+        
+        
+    }//update Property
+
+
+
+    #[Router(path:'/sold_property/{id}',method:'GET',middleware:'owner')]
+    public function soldProperty(Request $request,Response $response,$params){
+
+        $id = $params->id;
+        $user_id = $request->getUser()->id;
+        $db = $request->getDatabase();
+        $bookedProperty = $db->fetchOne("properties",['id'=>$id,'user_id'=>$user_id]);
+
+        if(!$bookedProperty){
+            die("Property not found");
+        }
+        if($bookedProperty['is_available']){
+        $isUpdated =  $db->update('properties', ['is_available'=>false],['id'=>$id,'user_id'=>$user_id]);
+
+        }
+        else
+        $isUpdated =  $db->update('properties', ['is_available'=>true],['id'=>$id,'user_id'=>$user_id]);
+        
+        if(!$isUpdated){
+            die("Something went wrong updating.");
+        }
+       
+        return $response->redirect('/');
+        
+        
+    }//sold Property
 
 
     #[Router(path:'/booked_property', method:'GET')]
@@ -129,6 +230,21 @@ class PropertyController{
 
     }//view Property
 
+
+    #[Router(path:'/edit_property/{id}', method:'GET')]
+    public function editProperty(Request $request,Response $response,$params){
+
+        $id = $params->id;
+        $db = $request->getDatabase();
+        $property = $db->fetchOneSql('SELECT ap.* , pp.p_photo from properties as ap inner join property_photo as pp on ap.id = pp.property_id where ap.id = ? and ap.state = ? ',[$id,'active']);
+        if(!$property){
+            die("Property not found");
+        }
+      
+        
+        return $response->render('property/edit_property',['property'=>$property]);
+
+    }//edit Property
     
 
 
@@ -143,7 +259,7 @@ class PropertyController{
 
         $conditions = array();
 
-        $sql = "SELECT ap.* , pp.p_photo from properties as ap left join property_photo as pp on ap.id = pp.property_id where state=?  and ";
+        $sql = "SELECT ap.* , pp.p_photo from properties as ap left join property_photo as pp on ap.id = pp.property_id where state=? and is_available=?  and ";
 
         // Add conditions based on search input
         if (!empty($search_property)) {
@@ -171,7 +287,7 @@ class PropertyController{
 
         $db = $request->getDatabase();
         // print_r($sql);
-        $properties = $db->fetchAllSql($sql,['active']);
+        $properties = $db->fetchAllSql($sql,['active',true]);
 
         return $response->json($properties);
 

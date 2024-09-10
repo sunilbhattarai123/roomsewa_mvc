@@ -80,6 +80,7 @@
                                 <th class="py-3 px-6 text-gray-600">Created At</th>
                                 <th class="py-3 px-6 text-gray-600">Action</th>
                                 <th class="py-3 px-6 text-gray-600">State</th>
+                                <th class="py-3 px-6 text-gray-600">Status</th>
                                 </tr>
                         </thead>
                         <tbody>
@@ -101,6 +102,7 @@
                                  
                                 
                                 </td>
+                                
                                 <td class="py-4 px-6"><?php echo $property['created_at']  ?></td>
                                 <td>     
                                 <form method="POST" action="/admin/property/delete">
@@ -125,6 +127,19 @@
                                         <span class="bg-red-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Rejected</span>
                                     </td>
                                     <?php } ?>
+
+                                    <?php if($property['is_available']) { ?>
+
+                                    <td>                                         <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Available</span>
+                                    </td>
+
+                                    <?php } else { ?>
+
+                                        <td>                                         <span class="bg-red-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Sold</span>
+                                        </td>
+
+                                        <?php } ?>
+                                
                             </tr>
 
                             <?php } ?>

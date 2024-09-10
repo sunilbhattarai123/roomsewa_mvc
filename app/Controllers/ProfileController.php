@@ -12,17 +12,30 @@ class ProfileController{
         $response->disableLayouts(true);
         $response->withHeader('layouts/header');
         $id = $params->other_id; 
-        $db = $request->getDatabase();
+        
         if(!$id)
             $id = $request->getUser()->id;
+        $viewer_id = $request->getUser()->id;
+        $db = $request->getDatabase();
+
+
+        $isRatingAllow = true;
+        if($viewer_id == $id)
+        $isRatingAllow = false;
+
+        // $ratingByViewer = $db->fetchOne('ratings',['other_id'=>$id,'user_id'=>$viewer_id]);
+        // if($ratingByViewer) $isRatingAllow = false;
+
    
         $user = $db->fetchOne('users',['id'=>$id]);
         if(!$user){
             echo "User not found";
             return;
         }//
-
-        return $response->render('profile/profile',['profile'=>$user]);
+        $rating = $db->fetchOneSql("SELECT AVG(rating) as ratingcount from ratings where other_id=?  ",[$id])['ratingcount'];
+        if(!$rating) $rating = 0;
+        $rating = round($rating,1);
+        return $response->render('profile/profile',['profile'=>$user,'rating'=>$rating,'isRatingAllow'=>$isRatingAllow]);
 
     }//
     

@@ -9,7 +9,7 @@
         <li class="active" style="background-color: #FFF8DC"><a data-toggle="pill" href="#home">Profile</a></li>
         <li style="background-color: #FAC0E6"><a href="/messages">Messages</a></li>
         <li style="background-color: #FAF0E6"><a data-toggle="pill" href="#menu1">Add Property</a></li>
-        <li style="background-color: #FFFACD"><a data-toggle="pill" href="#menu2">View Property</a></li>
+        <li style="background-color: #FFFACD"><a data-toggle="pill" href="#menu2">Properties</a></li>
         <!-- <li style="background-color: #FFFAF0"><a data-toggle="pill" href="#menu3">Update Property</a></li> -->
         <li style="background-color: #FAFAF0"><a data-toggle="pill" href="#menu6">Booked Property</a></li>
     </ul>
@@ -511,6 +511,8 @@
                         <th>Property Zone</th>
                         <th>Property Ward No</th>
                         <th>Property Tole</th>
+                        <th>Action1 </th>
+                        <th>Action2 </th>
                     </tr>
 
                     <?php foreach ($bookedProperties as $bookedProperty) { ?>
@@ -535,6 +537,18 @@
                             </td>
                             <td>
                                 <?php echo $bookedProperty['tole']; ?>
+                            </td>
+                            <td>
+                                
+                                   <a href="/unbook_property/<?php echo $bookedProperty['id'] ?>" class="btn-a btn-lg btn-primary btn-lg " style="margin-right:14px; background-color:green;"> Unbook Property </a>
+                                
+                            <td>
+
+                            <?php if($bookedProperty['is_available']){ ?>
+                             <a href="/sold_property/<?php echo $bookedProperty['id'] ?>" class="btn-a btn-lg btn-primary btn-lg" style="margin-right:14px; background-color:red;"> Sold </a> 
+                             <?php } else { ?>
+                             <a href="/sold_property/<?php echo $bookedProperty['id'] ?>" class="btn-a btn-lg btn-primary btn-lg" style="margin-right:14px; background-color:red;"> Unsold </a> 
+                                <?php } ?>
                             </td>
                         </tr>
 
@@ -564,7 +578,7 @@
 
 
         <div id="menu2" class="view_property tab-pane fade">
-            <h3 id="h3">View Property </h3>
+            <h3 id="h3">All Properties </h3>
             <div class="container-fluid">
                 <div class="row">
 
