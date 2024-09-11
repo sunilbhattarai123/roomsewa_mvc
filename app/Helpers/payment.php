@@ -33,7 +33,7 @@ class payment
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_HTTPHEADER => [
-                'Authorization:  key live_secret_key_68791341fdd94846a146f0457ff7b455',
+                'Authorization:  key '.getenv('KHALTI_SECRET_KEY'),
                 'Content-Type: application/json',
             ],
         ]);
