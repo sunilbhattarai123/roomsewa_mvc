@@ -2,6 +2,7 @@
 
 
 namespace App\Controllers;
+use App\Helpers\requestsender;
 use Phphelper\Core\Request;
 use Phphelper\Core\Response;
 use Phphelper\Core\Router;
@@ -219,14 +220,40 @@ class PropertyController{
 
         $id = $params->id;
         $db = $request->getDatabase();
+
+
         $property = $db->fetchOneSql('SELECT ap.* , pp.p_photo from properties as ap inner join property_photo as pp on ap.id = pp.property_id where ap.id = ? and ap.state = ? ',[$id,'active']);
         if(!$property){
             die("Property not found");
         }
         // SELECT * from review where property_id='$property_id
+
+
+
+        //recommendation process
+        $recommendatingProperties = [];
+        if($request->isLogin()){
+            $user_id = $request->getUser()->id;
+            $property_view = $db->fetchOne('property_views',['post_id'=>$id, 'user_id'=>$user_id]);
+            if(!$property_view){
+                $db->insert('property_views',['post_id'=>$id, 'user_id'=>$user_id]);
+            }
+
+            $ids = Requestsender::send($user_id);
+            if(count($ids)!=0){
+                $ids = implode(',', $ids);
+        // $properties = $db->fetchAllSql('SELECT ap.* , pp.p_photo from properties as ap inner join property_photo as pp on ap.id = pp.property_id where ap.state = ? and C=? order by rand() limit 18',['active',true]);
+
+               $recommendatingProperties =  $db->fetchAllSql("select properties.*,pp.p_photo from properties left join property_photo as pp on pp.property_id = properties.id where properties.id in ($ids) and properties.id != $id order by FIELD(properties.id,$ids)");
+           
+                }//count 0
+               
+            }//if login
+
+
         $reviews = $db->fetchAll('reviews',['property_id'=>$id]);
         
-        return $response->render('property/view_property',['property'=>$property,'reviews'=>$reviews]);
+        return $response->render('property/view_property',['property'=>$property,'reviews'=>$reviews,'recommends'=>$recommendatingProperties]);
 
     }//view Property
 

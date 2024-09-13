@@ -24,13 +24,15 @@ class PaymentController
 
         $description = $property['description'];
         $price = $property['estimated_price'] * 100;
-        $responseKhalti = payment::initiatepayment($id, $description, $price);
+        
+        $responseKhalti = payment::initiatePayment($id,$price, $description);
+      
         if (!isset($responseKhalti['payment_url'])) {
             die("Something went wrong initiating payment...");
         }
+        
 
-
-        $paymentUrl = $responseKhalti["payment_url"];
+        $paymentUrl = $responseKhalti['payment_url'];
         return $response->redirect($paymentUrl);
 
     }

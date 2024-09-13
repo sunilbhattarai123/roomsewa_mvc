@@ -173,7 +173,7 @@
   if ($auth && $user->role !='owner') {
     ?>
     <div method="POST" action="">
-      <div class="row">
+      <div class="rows">
         <div class="col-sm-6">
           <?php
           $booked = $property['booked'];
@@ -202,14 +202,10 @@
       </a>
   
       <a class="btn btn-lg btn-info message-btn" href="/message/<?php echo $property['user_id'] ?>">Send Message</a>
-      <a href="/pay/<?php echo $property['id']  ?>">
-          <button class="btn btn-lg btn-primary owner-profile-btn">Pay</button>
-      </a>
+
     </div>
 
- 
 
-            
 
             
   <?php }  else if($auth && $user->role = 'owner' ) {?>
@@ -280,30 +276,46 @@
   <br>
 </div>
 
+<link rel="stylesheet" href="/public/css/rec.css">
 
 
-<div class="recommendation-loadmore">
-
-<!-- 
-  <div class="myclass">
-    <form action="/load-more.php" method="post">
-      <button type="submit" class="btn btn-outline-dark" name="load more" style="width: 300px"
-        background-color="blue">Load More</button>
-    </form>
-  </div> -->
-  <?php if ($auth  && $user->role !='owner') { ?>
+<h2 id="helper" style="margin-left: 100px;font-weight:bold;font-size:20px;">Similar Properties</h2>
 
 
-    <div class="myclass">
-      <form id="recommendPropertyForm" action="./recommendation.php" method="post">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <input type="hidden" name="property_id" value="<?php echo $property_id; ?>">
-        <button type="submit" class="btn btn-outline-dark" name="recommended" style="width: 300px">Recommended</button>
-      </form>
-    </div>
-  <?php } ?>
+<div id="list_box" class="container">
+
+
+
+    <?php foreach ($recommends as $property) { ?>
+        <div class="card">
+            <?php if (isset($property['p_photo'])) { ?>
+                <img class="image" src="/public/uploads/<?php echo $property['p_photo'] ?>" alt="Property Image">
+            <?php } ?>
+
+
+            <div class="label">
+                <span class="label <?php echo $property['booked'] == 'No' ? 'available' : 'booked'; ?>">
+                    <?php echo $property['booked'] == "No" ? 'Available' : 'Booked'; ?>
+                </span>
+            </div>
+
+
+
+            <div class="label">
+                <span class="label available">Rs. <?php echo $property['estimated_price'] ?></span>
+            </div>
+            <div class="property-info">
+                <h4><b><?php echo $property['property_type']; ?></b></h4>
+                <p><?php echo $property['city'] . ', ' . $property['district']; ?></p>
+                <a href="/property/<?php echo $property['id']; ?>" class="btn2">View Property</a>
+            </div>
+        </div>
+
+    <?php } ?>
+
+
 </div>
+
 
 
 <!-- Review Code started here  -->
